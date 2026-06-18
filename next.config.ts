@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   output: "export",
   // If you are deploying to https://<username>.github.io/<repository-name>/,
   // uncomment the lines below and replace 'repository-name' with your repository name:
-  // basePath: isProd ? "/repository-name" : undefined,
+  basePath: isProd ? "/transfomer_visualizer" : undefined,
   images: {
     unoptimized: true,
   },
