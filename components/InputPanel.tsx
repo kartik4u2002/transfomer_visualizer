@@ -6,9 +6,13 @@ import { Sparkles, AlertTriangle } from "lucide-react";
 interface InputPanelProps {
   initialSentence: string;
   onSubmit: (sentence: string) => void;
+  title?: string;
+  description?: string;
+  presets?: string[];
+  placeholder?: string;
 }
 
-const PRESETS = [
+const DEFAULT_PRESETS = [
   "cat rat mat",
   "the dog ran",
   "i like math",
@@ -19,6 +23,10 @@ const PRESETS = [
 export default function InputPanel({
   initialSentence,
   onSubmit,
+  title = "Interactive Input Sentence",
+  description = "Type a short sentence (up to 6 words) to trace its math live.",
+  presets = DEFAULT_PRESETS,
+  placeholder = "e.g. cat rat mat",
 }: InputPanelProps) {
   const [text, setText] = useState(initialSentence);
   const [error, setError] = useState<string | null>(null);
@@ -61,14 +69,14 @@ export default function InputPanel({
         {/* Label & Description */}
         <div>
           <label
-            htmlFor="sentence-input"
+            htmlFor={`sentence-input-${title.replace(/\s+/g, "-").toLowerCase()}`}
             className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5"
           >
             <Sparkles className="w-4 h-4 text-indigo-500" />
-            <span>Interactive Input Sentence</span>
+            <span>{title}</span>
           </label>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-            Type a short sentence (up to 6 words) to trace its math live through the encoder.
+            {description}
           </p>
         </div>
 
@@ -76,7 +84,7 @@ export default function InputPanel({
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
             <input
-              id="sentence-input"
+              id={`sentence-input-${title.replace(/\s+/g, "-").toLowerCase()}`}
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -85,7 +93,7 @@ export default function InputPanel({
                   ? "border-red-300 dark:border-red-900/40 focus:ring-red-500/20"
                   : "border-slate-200 dark:border-slate-800 focus:ring-indigo-500/20 focus:border-indigo-500"
               }`}
-              placeholder="e.g. cat rat mat"
+              placeholder={placeholder}
             />
           </div>
 
@@ -111,7 +119,7 @@ export default function InputPanel({
           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mr-1 select-none">
             Presets:
           </span>
-          {PRESETS.map((preset) => (
+          {presets.map((preset) => (
             <button
               key={preset}
               type="button"

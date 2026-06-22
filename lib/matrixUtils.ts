@@ -147,3 +147,13 @@ export function relu(A: number[][]): number[][] {
 export function scale(A: number[][], scalar: number): number[][] {
   return A.map((row) => row.map((val) => val * scalar));
 }
+
+/**
+ * Applies a look-ahead mask to attention scores.
+ * Sets positions above the diagonal (j > i) to -Infinity.
+ */
+export function applyMask(scores: number[][]): number[][] {
+  return scores.map((row, r) =>
+    row.map((val, c) => (c > r ? -Infinity : val))
+  );
+}
